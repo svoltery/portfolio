@@ -1,0 +1,479 @@
+openapi: 3.0.3
+info:
+  title: API сервиса уведомлений
+  version: 1.0.0
+  description: Создание шаблонов уведомлений и получение истории уведомлений пользователей.
+servers:
+- url: https://{bankApiHost}
+  description: Внутренний API банка (адрес не определён в постановках)
+  variables:
+    bankApiHost:
+      default: api.example.invalid
+      description: Указать фактический адрес API
+tags:
+- name: Шаблоны
+- name: История уведомлений
+paths:
+  /api/v1/templates:
+    post:
+      tags:
+      - Шаблоны
+      summary: Создание шаблона
+      description: Создание шаблона уведомления с вариантами текста для каналов Push и SMS.
+      operationId: createNotificationTemplate
+      security:
+      - EmployeeJWT: []
+      parameters:
+      - name: Accept
+        in: header
+        required: true
+        description: Желаемый формат ответа
+        schema:
+          type: string
+          enum:
+          - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - template_id
+              - category_id
+              - service_id
+              - name
+              - channels
+              properties:
+                template_id:
+                  type: string
+                category_id:
+                  type: integer
+                service_id:
+                  type: integer
+                name:
+                  type: string
+                channels:
+                  type: object
+                  required:
+                  - push
+                  - sms
+                  properties:
+                    push:
+                      type: object
+                      required:
+                      - notification_text
+                      - channel_priority
+                      properties:
+                        title:
+                          type: string
+                        notification_text:
+                          type: string
+                        channel_priority:
+                          type: integer
+                          example: 1
+                    sms:
+                      type: object
+                      required:
+                      - notification_text
+                      - channel_priority
+                      properties:
+                        notification_text:
+                          type: string
+                        channel_priority:
+                          type: integer
+                          example: 2
+            example:
+              template_id: MARKETING_HOTEL_DISCOUNT
+              category_id: 1
+              service_id: 2
+              name: Скидка 25% на бронь отелей
+              channels:
+                push:
+                  title: Забронируйте отель
+                  notification_text: '*client_name*, для вас доступна скидка *discount_percent* при бронировании
+                    отелей, подробности в приложении'
+                  channel_priority: 1
+                sms:
+                  notification_text: '*client_name*, для вас доступна скидка *discount_percent* при бронировании
+                    отелей, ищите подробности по ссылке *link*'
+                  channel_priority: 2
+      responses:
+        '201':
+          description: Шаблон создан
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - template_id
+                - category_id
+                - service_id
+                - name
+                - created_by
+                - created_at
+                - channels
+                properties:
+                  id:
+                    type: integer
+                  template_id:
+                    type: string
+                  category_id:
+                    type: integer
+                  service_id:
+                    type: integer
+                  name:
+                    type: string
+                  created_by:
+                    type: string
+                    description: Идентификатор сотрудника из проверенного JWT; не передаётся в запросе
+                  created_at:
+                    type: string
+                    format: date-time
+                  channels:
+                    type: object
+                    required:
+                    - push
+                    - sms
+                    properties:
+                      push:
+                        allOf:
+                        - type: object
+                          required:
+                          - notification_text
+                          - channel_priority
+                          properties:
+                            title:
+                              type: string
+                            notification_text:
+                              type: string
+                            channel_priority:
+                              type: integer
+                              example: 1
+                        - type: object
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: integer
+                              example: 20
+                      sms:
+                        allOf:
+                        - type: object
+                          required:
+                          - notification_text
+                          - channel_priority
+                          properties:
+                            notification_text:
+                              type: string
+                            channel_priority:
+                              type: integer
+                              example: 2
+                        - type: object
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: integer
+                              example: 21
+              example:
+                template_id: MARKETING_HOTEL_DISCOUNT
+                category_id: 1
+                service_id: 2
+                name: Скидка 25% на бронь отелей
+                id: 100
+                created_by: employee_12345
+                created_at: '2026-09-03T14:30:00+03:00'
+                channels:
+                  push:
+                    id: 20
+                    title: Забронируйте отель
+                    notification_text: '*client_name*, для вас доступна скидка *discount_percent* при бронировании
+                      отелей, подробности в приложении'
+                    channel_priority: 1
+                  sms:
+                    id: 21
+                    notification_text: '*client_name*, для вас доступна скидка *discount_percent* при бронировании
+                      отелей, ищите подробности по ссылке *link*'
+                    channel_priority: 2
+        '400':
+          description: Некорректный JSON, отсутствует обязательное поле или неверный тип
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Поле service_id является обязательным
+        '401':
+          description: Токен отсутствует, недействителен или истёк
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Требуется авторизация
+          headers:
+            WWW-Authenticate:
+              description: Схема аутентификации
+              schema:
+                type: string
+              example: Bearer
+        '403':
+          description: Нет права создавать шаблоны
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Недостаточно прав для создания шаблона уведомления
+        '409':
+          description: Дубликат template_id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Шаблон с таким идентификатором уже существует
+        '500':
+          description: Непредвиденная внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Не удалось создать шаблон уведомления. Повторите попытку позже.
+  /api/v1/notifications/{user_id}:
+    get:
+      tags:
+      - История уведомлений
+      summary: История уведомлений пользователя
+      description: Получение списка уведомлений конкретного пользователя с фильтрацией и постраничным просмотром.
+      operationId: getNotificationHistory
+      security:
+      - EmployeeJWT: []
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: Идентификатор клиента
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Номер страницы
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 15
+          default: 15
+        description: Размер страницы
+      - name: date
+        in: query
+        schema:
+          type: string
+          format: date
+        description: Конкретная дата создания; несовместима с date_from/date_to
+      - name: date_from
+        in: query
+        schema:
+          type: string
+          format: date
+        description: Начало периода включительно
+      - name: date_to
+        in: query
+        schema:
+          type: string
+          format: date
+        description: Конец периода включительно
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - delivered
+          - failed
+        description: Итоговый статус последней попытки
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - push
+          - sms
+        description: Канал текстового варианта
+      - name: notification_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - сервисное
+          - платежное
+          - маркетинговое
+        description: Категория уведомления
+      responses:
+        '200':
+          description: История уведомлений; при отсутствии записей notifications — пустой массив
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - client
+                - notifications
+                - pagination
+                properties:
+                  client:
+                    type: object
+                    required:
+                    - name
+                    - last_name
+                    properties:
+                      name:
+                        type: string
+                      last_name:
+                        type: string
+                  notifications:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - notification_id
+                      - template_id
+                      - notification_name
+                      - notification_type
+                      - notification_status
+                      - delivered_at
+                      - notification_text
+                      - notification_channel
+                      properties:
+                        notification_id:
+                          type: integer
+                        template_id:
+                          type: string
+                        notification_name:
+                          type: string
+                        notification_type:
+                          type: string
+                          enum:
+                          - сервисное
+                          - платежное
+                          - маркетинговое
+                        notification_status:
+                          type: string
+                          nullable: true
+                          enum:
+                          - delivered
+                          - failed
+                          description: Статус последней попытки; null, если попыток не было
+                        delivered_at:
+                          type: string
+                          format: date-time
+                          nullable: true
+                          description: delivery_attempt.created_dt последней попытки, если статус delivered; иначе
+                            null
+                        notification_text:
+                          type: string
+                        notification_channel:
+                          type: string
+                          enum:
+                          - push
+                          - sms
+                          description: Канал связанного текстового варианта шаблона (не обязательно фактический
+                            канал доставки при fallback)
+                  pagination:
+                    type: object
+                    required:
+                    - page
+                    - limit
+                    - total_count
+                    - total_pages
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+              example:
+                client:
+                  name: Иван
+                  last_name: Иванов
+                notifications:
+                - notification_id: 123456
+                  template_id: NEW_DEVICE_LOGIN
+                  notification_name: Вход с нового устройства
+                  notification_type: сервисное
+                  notification_status: delivered
+                  delivered_at: '2026-09-25T07:28:31+03:00'
+                  notification_text: В ваш аккаунт был совершен вход с нового устройства в 07:28. Если входили не
+                    вы, обратитесь в службу поддержки банка.
+                  notification_channel: sms
+                pagination:
+                  page: 1
+                  limit: 15
+                  total_count: 32
+                  total_pages: 3
+        '400':
+          description: Некорректные параметры запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Некорректное значение параметра limit.
+        '401':
+          description: Токен отсутствует, недействителен или истёк
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Требуется авторизация
+        '403':
+          description: Недостаточно прав на просмотр истории
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Недостаточно прав для просмотра истории уведомлений
+        '404':
+          description: Клиент не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Запрашиваемый пользователь не найден.
+        '500':
+          description: Непредвиденная ошибка при получении данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageError'
+              example:
+                message: Не удалось получить данные. Повторите попытку позже.
+components:
+  securitySchemes:
+    EmployeeJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT авторизованного сотрудника WebUI
+  schemas:
+    MessageError:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
