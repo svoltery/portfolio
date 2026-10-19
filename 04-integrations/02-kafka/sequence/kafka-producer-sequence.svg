@@ -43,10 +43,10 @@
 <text x="188" y="558" class="small">UPDATE outbox</text>
 <text x="188" y="580" class="small">status = published, published_dt = NOW(),</text>
 <text x="188" y="602" class="small">kafka_message_id = topic:partition:offset</text>
-<rect x="190" y="665" width="975" height="270" rx="5" fill="#f2f2ff" fill-opacity="0.22" stroke="#9997d4" stroke-width="1.4"/>
-<rect x="190" y="665" width="72" height="32" rx="5" fill="#dfdfff" stroke="#9997d4" stroke-width="1.4"/>
-<text x="207" y="687" class="strong">loop</text>
-<text x="280" y="688" class="strong">[Повторные попытки]</text>
+<rect x="112" y="665" width="1053" height="270" rx="5" fill="#f2f2ff" fill-opacity="0.22" stroke="#9997d4" stroke-width="1.4"/>
+<rect x="112" y="665" width="72" height="32" rx="5" fill="#dfdfff" stroke="#9997d4" stroke-width="1.4"/>
+<text x="128" y="687" class="strong">loop</text>
+<text x="204" y="688" class="strong">[Повторные попытки]</text>
 <path d="M1040 726 H170" stroke="#273244" stroke-dasharray="5 4" stroke-width="1.5" marker-end="url(#cross)"/>
 <text x="95" y="731" class="strong">7</text>
 <text x="280" y="715" class="small">Ошибка / timeout</text>
