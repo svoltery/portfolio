@@ -28,8 +28,8 @@
 <path d="M170 403 H1040" class="arrow"/>
 <text x="95" y="408" class="strong">4</text>
 <text x="188" y="393" class="small">Publish (key = user_id, idempotency-key = outbox.id)</text>
-<rect x="46" y="437" width="1450" height="627" rx="5" fill="#fff1f1" stroke="#d08c8c" stroke-width="1.4"/>
-<rect x="46" y="437" width="1450" height="171" rx="5" fill="#edfff3" stroke="#64ad86" stroke-width="1.4"/>
+<rect x="46" y="437" width="1450" height="627" rx="5" fill="#fff1f1" fill-opacity="0.22" stroke="#d08c8c" stroke-width="1.4"/>
+<rect x="46" y="437" width="1450" height="171" rx="5" fill="#edfff3" fill-opacity="0.22" stroke="#64ad86" stroke-width="1.4"/>
 <rect x="46" y="437" width="70" height="31" rx="5" fill="#bdf1d3" stroke="#3c986a" stroke-width="1.4"/>
 <text x="67" y="459" class="strong">alt</text>
 <text x="190" y="459" class="strong">[Публикация успешна]</text>
@@ -43,7 +43,7 @@
 <text x="188" y="558" class="small">UPDATE outbox</text>
 <text x="188" y="580" class="small">status = published, published_dt = NOW(),</text>
 <text x="188" y="602" class="small">kafka_message_id = topic:partition:offset</text>
-<rect x="190" y="665" width="975" height="270" rx="5" fill="#f2f2ff" stroke="#9997d4" stroke-width="1.4"/>
+<rect x="190" y="665" width="975" height="270" rx="5" fill="#f2f2ff" fill-opacity="0.22" stroke="#9997d4" stroke-width="1.4"/>
 <rect x="190" y="665" width="72" height="32" rx="5" fill="#dfdfff" stroke="#9997d4" stroke-width="1.4"/>
 <text x="207" y="687" class="strong">loop</text>
 <text x="280" y="688" class="strong">[Повторные попытки]</text>
