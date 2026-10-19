@@ -22,7 +22,7 @@
 <rect x="183" y="253" width="408" height="42" rx="5" fill="#fff5d8" stroke="#dfa321" stroke-width="1.4"/>
 <text x="197" y="280" class="">Фаза 2 — асинхронная доставка в Kafka</text>
 <path d="M170 341 H690" class="arrow"/>
-<text x="95" y="346" class="strong">3</text>
+<text x="95" y="308" class="strong">3</text>
 <text x="188" y="308" class="small">SELECT outbox WHERE status = new</text>
 <text x="188" y="327" class="small">ORDER BY created_dt ASC, id ASC</text>
 <path d="M170 403 H1040" class="arrow"/>
@@ -39,7 +39,7 @@
 <text x="95" y="505" class="strong">5</text>
 <text x="188" y="490" class="small">ACK (topic, partition, offset)</text>
 <path d="M170 568 H690" class="arrow"/>
-<text x="95" y="573" class="strong">6</text>
+<text x="95" y="535" class="strong">6</text>
 <text x="188" y="535" class="small">UPDATE outbox (status = published, published_dt = NOW())</text>
 
 <text x="188" y="554" class="small">kafka_message_id = topic:partition:offset</text>
@@ -60,7 +60,7 @@
 <text x="95" y="876" class="strong">10</text>
 <text x="188" y="861" class="small">ACK (topic, partition, offset)</text>
 <path d="M170 916 H690" class="arrow"/>
-<text x="95" y="921" class="strong">11</text>
+<text x="95" y="888" class="strong">11</text>
 <text x="188" y="888" class="small">UPDATE outbox (status = published, published_dt = NOW())</text>
 
 <text x="188" y="906" class="small">kafka_message_id = topic:partition:offset</text>
