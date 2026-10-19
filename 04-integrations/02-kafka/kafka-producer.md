@@ -81,7 +81,9 @@
 
 ## 4. Sequence-diagramm
 
-![Sequence diagram — публикация Push-уведомления в Kafka](images/kafka-producer-sequence.svg)
+![Sequence diagram — публикация Push-уведомления в Kafka](sequence/kafka-producer-sequence.svg)
+
+[Исходный код диаграммы (PlantUML)](sequence/kafka-producer-sequence.puml)
 
 ## 5. Контракт данных
 
