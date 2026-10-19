@@ -1,0 +1,51 @@
+@startuml
+title Публикация Push-уведомления в Kafka
+
+autonumber
+
+participant "Сервис уведомлений" as NS
+database "PostgreSQL" as DB
+queue "notification-ios" as Kafka
+queue "notification-ios-dlq" as DLQ
+
+note over NS, DB
+  Фаза 1 — атомарная транзакция в БД
+end note
+
+NS -> DB: INSERT outbox (status = new)
+NS -> DB: COMMIT
+
+note over NS, Kafka
+  Фаза 2 — асинхронная доставка в Kafka
+end note
+
+NS -> DB: SELECT outbox WHERE status = new\nORDER BY created_dt ASC, id ASC
+
+NS -> Kafka: Publish (key = user_id,\nidempotency-key = outbox.id)
+
+alt Публикация успешна
+    Kafka --> NS: ACK (topic, partition, offset)
+    NS -> DB: UPDATE outbox\nstatus = published\npublished_dt = NOW()\nkafka_message_id = topic:partition:offset
+
+else Ошибка публикации
+
+    loop Повторные попытки
+        Kafka --x NS: Ошибка / timeout
+        NS -> NS: Ожидание (timeout)
+        NS -> Kafka: Retry (тот же idempotency-key)
+        Kafka --> NS: ACK (topic, partition, offset)
+        NS -> DB: UPDATE outbox\nstatus = published\npublished_dt = NOW()\nkafka_message_id = topic:partition:offset
+    end
+
+    note over NS, DLQ
+      Исключительный сценарий — DLQ.
+      Повторные попытки исчерпаны,
+      публикация в основной топик не удалась.
+    end note
+
+    NS -> DLQ: Исходное сообщение + заголовки ошибки
+    DLQ --> NS: ACK
+
+end
+
+@enduml
