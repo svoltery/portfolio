@@ -1,76 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1550" height="1120" viewBox="0 0 1550 1120"><defs><marker id="arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9Z" fill="#273244"/></marker><marker id="cross" markerWidth="10" markerHeight="10" refX="5" refY="5"><path d="M1 1 L9 9 M9 1 L1 9" stroke="#dc2626" stroke-width="2.5"/></marker></defs><rect width="1550" height="1120" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1550" height="1120" viewBox="0 0 1550 1120"><defs><marker id="arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9Z" fill="#273244"/></marker><marker id="cross" markerWidth="10" markerHeight="10" refX="5" refY="5"><path d="M1 1 L9 9 M9 1 L1 9" stroke="#dc2626" stroke-width="2.5"/></marker></defs><rect width="1550" height="1120" fill="white"/><style>text{font-family:Arial,sans-serif;fill:#171d2a;font-size:17px}.small{font-size:15px}.strong{font-weight:bold}.lifeline{stroke:#667085;stroke-width:1.3;stroke-dasharray:5 5}.arrow{stroke:#263444;stroke-width:1.5;fill:none;marker-end:url(#arr)}.reply{stroke:#263444;stroke-width:1.3;stroke-dasharray:5 4;fill:none;marker-end:url(#arr)}</style>
 <rect x="57.5" y="20" width="225" height="60" rx="5" fill="#dceefe" stroke="#2b76bd" stroke-width="1.4"/>
-<text x="85" y="56" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">Сервис уведомлений</text>
-<line x1="170" x2="170" y1="90" y2="1090" stroke="#667085" stroke-width="1.3" stroke-dasharray="5 5"/>
+<text x="85" y="56" class="strong">Сервис уведомлений</text>
+<line x1="170" x2="170" y1="90" y2="1090" class="lifeline"/>
 <rect x="587.5" y="20" width="205" height="60" rx="5" fill="#eeedff" stroke="#8885ca" stroke-width="1.4"/>
-<text x="641" y="56" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">PostgreSQL</text>
-<line x1="690" x2="690" y1="90" y2="1090" stroke="#667085" stroke-width="1.3" stroke-dasharray="5 5"/>
+<text x="641" y="56" class="strong">PostgreSQL</text>
+<line x1="690" x2="690" y1="90" y2="1090" class="lifeline"/>
 <rect x="927.5" y="20" width="225" height="60" rx="5" fill="#d8f7e5" stroke="#269b59" stroke-width="1.4"/>
-<text x="975" y="56" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">notification-ios</text>
-<line x1="1040" x2="1040" y1="90" y2="1090" stroke="#667085" stroke-width="1.3" stroke-dasharray="5 5"/>
+<text x="975" y="56" class="strong">notification-ios</text>
+<line x1="1040" x2="1040" y1="90" y2="1090" class="lifeline"/>
 <rect x="1275" y="20" width="250" height="60" rx="5" fill="#d8f7e5" stroke="#269b59" stroke-width="1.4"/>
-<text x="1312" y="56" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">notification-ios-dlq</text>
-<line x1="1400" x2="1400" y1="90" y2="1090" stroke="#667085" stroke-width="1.3" stroke-dasharray="5 5"/>
+<text x="1312" y="56" class="strong">notification-ios-dlq</text>
+<line x1="1400" x2="1400" y1="90" y2="1090" class="lifeline"/>
 <rect x="183" y="103" width="365" height="42" rx="5" fill="#fff5d8" stroke="#dfa321" stroke-width="1.4"/>
-<text font-family="Arial,sans-serif" font-size="17" fill="#171d2a" x="197" y="130" class="">Фаза 1 — атомарная транзакция в БД</text>
-<path d="M170 183 H690" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="188" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">1</text>
-<text x="188" y="173" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">INSERT outbox (status = new)</text>
-<path d="M170 225 H690" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="230" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">2</text>
-<text x="188" y="215" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">COMMIT</text>
+<text x="197" y="130" class="">Фаза 1 — атомарная транзакция в БД</text>
+<path d="M170 183 H690" class="arrow"/>
+<text x="95" y="188" class="strong">1</text>
+<text x="188" y="173" class="small">INSERT outbox (status = new)</text>
+<path d="M170 225 H690" class="arrow"/>
+<text x="95" y="230" class="strong">2</text>
+<text x="188" y="215" class="small">COMMIT</text>
 <rect x="183" y="253" width="408" height="42" rx="5" fill="#fff5d8" stroke="#dfa321" stroke-width="1.4"/>
-<text font-family="Arial,sans-serif" font-size="17" fill="#171d2a" x="197" y="280" class="">Фаза 2 — асинхронная доставка в Kafka</text>
-<path d="M170 341 H690" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="346" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">3</text>
-<text x="188" y="307" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">SELECT outbox WHERE status = new</text>
-<text x="188" y="329" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">ORDER BY created_dt ASC, id ASC</text>
-<path d="M170 403 H1040" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="408" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">4</text>
-<text x="188" y="393" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Publish (key = user_id, idempotency-key = outbox.id)</text>
+<text x="197" y="280" class="">Фаза 2 — асинхронная доставка в Kafka</text>
+<path d="M170 341 H690" class="arrow"/>
+<text x="95" y="346" class="strong">3</text>
+<text x="188" y="331" class="small">SELECT outbox WHERE status = new</text>
+<text x="188" y="353" class="small">ORDER BY created_dt ASC, id ASC</text>
+<path d="M170 403 H1040" class="arrow"/>
+<text x="95" y="408" class="strong">4</text>
+<text x="188" y="393" class="small">Publish (key = user_id, idempotency-key = outbox.id)</text>
 <rect x="46" y="437" width="1450" height="627" rx="5" fill="#fff1f1" fill-opacity="0.22" stroke="#d08c8c" stroke-width="1.4"/>
 <rect x="46" y="437" width="1450" height="171" rx="5" fill="#edfff3" fill-opacity="0.22" stroke="#64ad86" stroke-width="1.4"/>
 <rect x="46" y="437" width="70" height="31" rx="5" fill="#bdf1d3" stroke="#3c986a" stroke-width="1.4"/>
-<text x="67" y="459" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">alt</text>
-<text x="190" y="459" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">[Публикация успешна]</text>
+<text x="67" y="459" class="strong">alt</text>
+<text x="190" y="459" class="strong">[Публикация успешна]</text>
 <line x1="46" y1="608" x2="1496" y2="608" stroke="#bb7777" stroke-dasharray="6 4"/>
-<text x="190" y="636" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">[Ошибка публикации]</text>
-<path d="M1040 500 H170" stroke="#263444" stroke-width="1.3" stroke-dasharray="5 4" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="505" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">5</text>
-<text x="188" y="490" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">ACK (topic, partition, offset)</text>
-<path d="M170 568 H690" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="573" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">6</text>
-<text x="188" y="512" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">UPDATE outbox</text>
-<text x="188" y="534" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">status = published, published_dt = NOW(),</text>
-<text x="188" y="556" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">kafka_message_id = topic:partition:offset</text>
+<text x="190" y="636" class="strong">[Ошибка публикации]</text>
+<path d="M1040 500 H170" class="reply"/>
+<text x="95" y="505" class="strong">5</text>
+<text x="188" y="490" class="small">ACK (topic, partition, offset)</text>
+<path d="M170 568 H690" class="arrow"/>
+<text x="95" y="573" class="strong">6</text>
+<text x="188" y="558" class="small">UPDATE outbox</text>
+<text x="188" y="580" class="small">status = published, published_dt = NOW(),</text>
+<text x="188" y="602" class="small">kafka_message_id = topic:partition:offset</text>
 <rect x="112" y="665" width="1053" height="270" rx="5" fill="#f2f2ff" fill-opacity="0.22" stroke="#9997d4" stroke-width="1.4"/>
 <rect x="112" y="665" width="72" height="32" rx="5" fill="#dfdfff" stroke="#9997d4" stroke-width="1.4"/>
-<text x="128" y="687" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">loop</text>
-<text x="204" y="688" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">[Повторные попытки]</text>
+<text x="128" y="687" class="strong">loop</text>
+<text x="204" y="688" class="strong">[Повторные попытки]</text>
 <path d="M1040 726 H170" stroke="#273244" stroke-dasharray="5 4" stroke-width="1.5" marker-end="url(#cross)"/>
-<text x="95" y="731" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">7</text>
-<text x="280" y="715" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Ошибка / timeout</text>
-<path d="M170 744 h80 v28 h-80" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="767" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">8</text>
-<text x="260" y="758" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Ожидание (timeout)</text>
-<path d="M170 810 H1040" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="815" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">9</text>
-<text x="188" y="800" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Retry (тот же idempotency-key)</text>
-<path d="M1040 841 H170" stroke="#263444" stroke-width="1.3" stroke-dasharray="5 4" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="846" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">10</text>
-<text x="188" y="831" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">ACK (topic, partition, offset)</text>
-<path d="M170 916 H690" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="921" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">11</text>
-<text x="188" y="860 font-family="Arial,sans-serif" font-size="15" fill="#171d2a">UPDATE outbox</text>
-<text x="188" y="882" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">status = published, published_dt = NOW(),</text>
-<text x="188" y="904" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">kafka_message_id = topic:partition:offset</text>
+<text x="95" y="731" class="strong">7</text>
+<text x="280" y="715" class="small">Ошибка / timeout</text>
+<path d="M170 764 h80 v32 h-80" class="arrow"/>
+<text x="95" y="794" class="strong">8</text>
+<text x="260" y="784" class="small">Ожидание (timeout)</text>
+<path d="M170 835 H1040" class="arrow"/>
+<text x="95" y="840" class="strong">9</text>
+<text x="188" y="825" class="small">Retry (тот же idempotency-key)</text>
+<path d="M1040 871 H170" class="reply"/>
+<text x="95" y="876" class="strong">10</text>
+<text x="188" y="861" class="small">ACK (topic, partition, offset)</text>
+<path d="M170 916 H690" class="arrow"/>
+<text x="95" y="921" class="strong">11</text>
+<text x="188" y="906" class="small">UPDATE outbox</text>
+<text x="188" y="928" class="small">status = published, published_dt = NOW(),</text>
+<text x="188" y="950" class="small">kafka_message_id = topic:partition:offset</text>
 <rect x="183" y="953" width="750" height="51" rx="5" fill="#fff5d8" stroke="#dfa321" stroke-width="1.4"/>
-<text x="198" y="975" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Исключительный сценарий — DLQ.</text>
-<text x="198" y="997" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Повторные попытки исчерпаны, публикация в основной топик не удалась.</text>
-<path d="M170 1030 H1400" stroke="#263444" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="1035" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">12</text>
-<text x="188" y="1020" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">Исходное сообщение + заголовки ошибки</text>
-<path d="M1400 1054 H170" stroke="#263444" stroke-width="1.3" stroke-dasharray="5 4" fill="none" marker-end="url(#arr)"/>
-<text x="95" y="1060" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#171d2a">13</text>
-<text x="210" y="1048" font-family="Arial,sans-serif" font-size="15" fill="#171d2a">ACK</text>
+<text x="198" y="975" class="small">Исключительный сценарий — DLQ.</text>
+<text x="198" y="997" class="small">Повторные попытки исчерпаны, публикация в основной топик не удалась.</text>
+<path d="M170 1030 H1400" class="arrow"/>
+<text x="95" y="1035" class="strong">12</text>
+<text x="188" y="1020" class="small">Исходное сообщение + заголовки ошибки</text>
+<path d="M1400 1054 H170" class="reply"/>
+<text x="95" y="1060" class="strong">13</text>
+<text x="210" y="1048" class="small">ACK</text>
 </svg>
